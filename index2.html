@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VendorConnect - B2B Raw Material Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .nav-brand i {
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #2563eb;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-auth {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f1f5f9;
+            color: #475569;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-dashboard {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-dashboard:hover {
+            background: linear-gradient(135deg, #047857 0%, #059669 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-logout:hover {
+            background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-primary-large, .btn-secondary-large {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary-large {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary-large:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary-large {
+            background: rgba(255, 255, 255, 0.9);
+            color: #2563eb;
+            border: 2px solid #e5e7eb;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary-large:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #374151;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat p {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .hero-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+        }
+
+        .hero-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-card p {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        /* Section Styles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1f2937;
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-card i {
+            font-size: 2.5rem;
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 1rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: white;
+            color: #6b7280;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 2rem;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .step-card h3 {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-content p {
+            font-style: italic;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testimonial-author h4 {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .testimonial-author span {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .testimonial-rating i {
+            color: #fbbf24;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .footer {
+            background: #111827;
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f9fafb;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #3b82f6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #374151;
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            color: #d1d5db;
+        }
+
+        .contact-info i {
+            margin-right: 0.5rem;
+            color: #3b82f6;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #374151;
+        }
+
+        .auth-form {
+            margin-top: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .form-group small {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        /* Registration Choice Modal Styles */
+        .registration-choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .choice-card {
+            background: #f8fafc;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transition: left 0.5s;
+        }
+
+        .choice-card:hover::before {
+            left: 100%;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .choice-card.supplier:hover {
+            border-color: #059669;
+            box-shadow: 0 10px 40px rgba(5, 150, 105, 0.15);
+        }
+
+        .choice-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .choice-icon.supplier {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+
+        .choice-card:hover .choice-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .choice-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .choice-card p {
+            color: #4b5563;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .choice-benefits {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .choice-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .choice-benefits i {
+            color: #10b981;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .choice-btn.btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+        }
+
+        .choice-btn.btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-2px);
+        }
+
+        .choice-btn.btn-secondary {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+        }
+
+        .choice-btn.btn-secondary:hover {
+            background: linear-gradient(135deg, #047857 0%, #059669 100%);
+            transform: translateY(-2px);
+        }
+
+        /* Animation for authenticated state */
+        .nav-auth-authenticated {
+            animation: slideInFromRight 0.5s ease;
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-auth {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .btn-primary-large,
+            .btn-secondary-large {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons .btn-primary-large,
+            .cta-buttons .btn-secondary-large {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .registration-choices {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .choice-card {
+                padding: 1.5rem;
+            }
+            
+            .choice-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <i class="fas fa-handshake"></i>
+                <span>VendorConnect</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            
+            <!-- Default Auth Buttons (shown when not logged in) -->
+            <div class="nav-auth" id="nav-auth-default">
+                <button class="btn btn-secondary" onclick="openModal('loginModal')">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+                <button class="btn btn-primary" onclick="openModal('registrationChoice')">
+                    <i class="fas fa-user-plus"></i>
+                    Register
+                </button>
+            </div>
+
+            <!-- Authenticated Auth Buttons (shown when logged in) -->
+            <div class="nav-auth nav-auth-authenticated" id="nav-auth-authenticated" style="display: none;">
+                <button class="btn btn-dashboard" onclick="goToDashboard()">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </button>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Connect. Source. <span class="highlight">Grow.</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        The ultimate B2B marketplace connecting street food vendors with reliable raw material suppliers. 
+                        Get competitive prices, guaranteed quality, and timely delivery.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Active Vendors</p>
+                        </div>
+                        <div class="stat">
+                            <h3>200+</h3>
+                            <p>Verified Suppliers</p>
+                        </div>
+                        <div class="stat">
+                            <h3>10,000+</h3>
+                            <p>Orders Completed</p>
+                        </div>
+                    </div>
+                    <div class="hero-cta">
+                        <button class="btn-primary-large" onclick="openModal('registrationChoice')">
+                            <i class="fas fa-store"></i>
+                            Join as Vendor
+                        </button>
+                        <button class="btn-secondary-large" onclick="openModal('registrationChoice')">
+                            <i class="fas fa-industry"></i>
+                            Join as Supplier
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Verified suppliers with quality ratings</h4>
+                        <p>All suppliers are thoroughly vetted</p>
+                    </div>
+                    <div class="hero-card">
+                        <i class="fas fa-tags"></i>
+                        <h4>Compare prices across suppliers instantly</h4>
+                        <p>Get the best deals for your business</p>
+                    </div>
+                    <div class="hero-card">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h4>Reliable logistics with tracking</h4>
+                        <p>Real-time delivery updates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section class="problem">
+        <div class="container">
+            <h2 class="section-title">The Challenges We Solve</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Price fluctuations without transparency make budgeting difficult</h3>
+                    <p>Street food vendors struggle with unpredictable costs and lack of price visibility in traditional supply chains.</p>
+                </div>
+                <div class="problem-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Delayed deliveries disrupt daily operations and customer service</h3>
+                    <p>Unreliable delivery schedules affect business operations and customer satisfaction.</p>
+                </div>
+                <div class="problem-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Lack of quality assurance affects food safety and reputation</h3>
+                    <p>Inconsistent product quality poses risks to food safety standards and business reputation.</p>
+                </div>
+                <div class="problem-card">
+                    <i class="fas fa-search"></i>
+                    <h3>Difficulty finding reliable suppliers in local areas</h3>
+                    <p>Limited access to verified suppliers makes sourcing time-consuming and risky.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose VendorConnect?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>Browse categorized raw materials with real-time pricing and availability</h3>
+                    <p>Access a comprehensive catalog of ingredients with live pricing updates and stock levels.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Supplier ratings and reviews help you make informed decisions</h3>
+                    <p>Read authentic reviews from other vendors to choose the best suppliers for your needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Compare prices across multiple suppliers to get the best deals</h3>
+                    <p>Side-by-side price comparison ensures you always get competitive rates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Track your orders in real-time with integrated delivery partners</h3>
+                    <p>Monitor your shipments from warehouse to doorstep with live tracking.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Multiple payment options including credit terms for established vendors</h3>
+                    <p>Flexible payment methods with credit facilities for verified businesses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Insights into spending patterns and supplier performance</h3>
+                    <p>Detailed analytics to optimize your procurement and reduce costs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How VendorConnect Works</h2>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('vendor-tab')">For Vendors</button>
+                <button class="tab-btn" onclick="showTab('supplier-tab')">For Suppliers</button>
+            </div>
+            
+            <div id="vendor-tab" class="tab-content active">
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Sign up and verify your street food business with required documents</h3>
+                        <p>Create your vendor account and complete business verification for secure transactions.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Search for raw materials and compare prices from verified suppliers</h3>
+                        <p>Browse our extensive catalog and find the best deals from trusted suppliers.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Place orders with flexible payment options and track delivery in real-time</h3>
+                        <p>Easy ordering process with multiple payment methods and live tracking.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Rate suppliers and easily reorder your frequently needed items</h3>
+                        <p>Share feedback and build a list of favorite products for quick reordering.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="supplier-tab" class="tab-content">
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Register your supply business and upload quality certifications</h3>
+                        <p>Join our supplier network with proper documentation and quality credentials.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Add your product catalog with competitive pricing and availability</h3>
+                        <p>List your products with detailed descriptions, pricing, and stock information.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Receive and fulfill orders through our streamlined management system</h3>
+                        <p>Manage orders efficiently with our integrated order management tools.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Use analytics to understand demand and expand your customer base</h3>
+                        <p>Leverage data insights to grow your business and optimize inventory.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Users Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"VendorConnect has revolutionized how I source ingredients. The price transparency and quality assurance have improved my business significantly."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" alt="Rajesh Kumar">
+                        <div>
+                            <h4>Rajesh Kumar</h4>
+                            <span>Street Food Vendor, Delhi</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"As a supplier, this platform has connected me with hundreds of vendors. The order management system is fantastic."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b606?w=60&h=60&fit=crop&crop=face" alt="Priya Sharma">
+                        <div>
+                            <h4>Priya Sharma</h4>
+                            <span>Wholesale Supplier, Mumbai</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The delivery tracking and payment flexibility have made my daily operations so much smoother. Highly recommended!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face" alt="Mohammed Ali">
+                        <div>
+                            <h4>Mohammed Ali</h4>
+                            <span>Food Truck Owner, Bangalore</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Business?</h2>
+            <p>Join thousands of vendors and suppliers already using VendorConnect</p>
+            <div class="cta-buttons">
+                <button class="btn-primary-large" onclick="openModal('registrationChoice')">
+                    <i class="fas fa-store"></i>
+                    Start as Vendor
+                </button>
+                <button class="btn-secondary-large" onclick="openModal('registrationChoice')">
+                    <i class="fas fa-industry"></i>
+                    Become Supplier
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-handshake"></i>
+                        <span>VendorConnect</span>
+                    </div>
+                    <p>Connecting vendors with suppliers for a thriving food ecosystem.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> support@vendorconnect.com</p>
+                        <p><i class="fas fa-phone"></i> +91 9876543210</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Mumbai, India</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 VendorConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+    
+    <!-- Registration Choice Modal -->
+    <div id="registrationChoice" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeModal('registrationChoice')">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 1rem;">
+                <i class="fas fa-user-plus"></i> Choose Your Role
+            </h2>
+            <p style="text-align: center; color: #6b7280; margin-bottom: 2rem;">
+                Select how you want to join VendorConnect
+            </p>
+            
+            <div class="registration-choices">
+                <div class="choice-card" onclick="selectRegistrationType('vendor')">
+                    <div class="choice-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Register as Vendor</h3>
+                    <p>Perfect for street food vendors, restaurants, food trucks, and catering services looking to source quality raw materials.</p>
+                    <ul class="choice-benefits">
+                        <li><i class="fas fa-check"></i> Browse thousands of products</li>
+                        <li><i class="fas fa-check"></i> Compare prices from multiple suppliers</li>
+                        <li><i class="fas fa-check"></i> Track orders in real-time</li>
+                        <li><i class="fas fa-check"></i> Flexible payment options</li>
+                    </ul>
+                    <button class="choice-btn btn-primary">
+                        <i class="fas fa-store"></i>
+                        Continue as Vendor
+                    </button>
+                </div>
+                
+                <div class="choice-card" onclick="selectRegistrationType('supplier')">
+                    <div class="choice-icon supplier">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>Register as Supplier</h3>
+                    <p>Ideal for wholesalers, distributors, manufacturers, and producers wanting to expand their customer base.</p>
+                    <ul class="choice-benefits">
+                        <li><i class="fas fa-check"></i> Reach thousands of vendors</li>
+                        <li><i class="fas fa-check"></i> Manage orders efficiently</li>
+                        <li><i class="fas fa-check"></i> Analytics and insights</li>
+                        <li><i class="fas fa-check"></i> Verified business listings</li>
+                    </ul>
+                    <button class="choice-btn btn-secondary">
+                        <i class="fas fa-industry"></i>
+                        Continue as Supplier
+                    </button>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 2rem; color: #6b7280;">
+                Already have an account? 
+                <a href="#" onclick="switchToModal('loginModal')" style="color: #2563eb; text-decoration: none;">Login here</a>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2><i class="fas fa-sign-in-alt"></i> Login to VendorConnect</h2>
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary-large">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Don't have an account? 
+                <a href="#" onclick="switchToModal('registrationChoice')">Sign up here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Vendor Signup Modal -->
+    <div id="vendorSignup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('vendorSignup')">&times;</span>
+            <h2><i class="fas fa-store"></i> Vendor Registration</h2>
+            <form class="auth-form" onsubmit="handleVendorSignup(event)">
+                <div class="form-group">
+                    <label for="vendorBusinessName">Business Name *</label>
+                    <input type="text" id="vendorBusinessName" name="businessName" required>
+                </div>
+                <div class="form-group">
+                    <label for="vendorOwnerName">Owner Name *</label>
+                    <input type="text" id="vendorOwnerName" name="ownerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="vendorEmail">Email Address *</label>
+                    <input type="email" id="vendorEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="vendorPhone">Phone Number *</label>
+                    <input type="tel" id="vendorPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="vendorLocation">Business Location *</label>
+                    <input type="text" id="vendorLocation" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="vendorBusinessType">Business Type</label>
+                    <select id="vendorBusinessType" name="businessType">
+                        <option value="">Select Business Type</option>
+                        <option value="street-food">Street Food Vendor</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="catering">Catering Service</option>
+                        <option value="food-truck">Food Truck</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vendorPassword">Password *</label>
+                    <input type="password" id="vendorPassword" name="password" required>
+                    <small>Password must be at least 8 characters with uppercase, lowercase, and number</small>
+                </div>
+                <button type="submit" class="btn-primary-large">
+                    <i class="fas fa-user-plus"></i> Register as Vendor
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Already have an account? <a href="#" onclick="switchToModal('loginModal')">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Supplier Signup Modal -->
+    <div id="supplierSignup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('supplierSignup')">&times;</span>
+            <h2><i class="fas fa-industry"></i> Supplier Registration</h2>
+            <form class="auth-form" onsubmit="handleSupplierSignup(event)">
+                <div class="form-group">
+                    <label for="supplierCompanyName">Company Name *</label>
+                    <input type="text" id="supplierCompanyName" name="companyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="supplierContactPerson">Contact Person *</label>
+                    <input type="text" id="supplierContactPerson" name="contactPerson" required>
+                </div>
+                <div class="form-group">
+                    <label for="supplierEmail">Email Address *</label>
+                    <input type="email" id="supplierEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="supplierPhone">Phone Number *</label>  
+                    <input type="tel" id="supplierPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="supplierBusinessType">Business Type *</label>
+                    <select id="supplierBusinessType" name="businessType" required>
+                        <option value="">Select Business Type</option>
+                        <option value="wholesaler">Wholesaler</option>
+                        <option value="distributor">Distributor</option>
+                        <option value="manufacturer">Manufacturer</option>
+                        <option value="farm">Farm/Producer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="supplierLocation">Business Location</label>
+                    <input type="text" id="supplierLocation" name="location">
+                </div>
+                <div class="form-group">
+                    <label for="supplierPassword">Password *</label>
+                    <input type="password" id="supplierPassword" name="password" required>
+                    <small>Password must be at least 8 characters with uppercase, lowercase, and number</small>
+                </div>
+                <button type="submit" class="btn-primary-large">
+                    <i class="fas fa-industry"></i> Register as Supplier
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Already have an account? <a href="#" onclick="switchToModal('loginModal')">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Global state for authentication
+        let isAuthenticated = false;
+        let currentUser = null;
+
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchToModal(modalId) {
+            // Close all modals first
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+            // Open the target modal
+            openModal(modalId);
+        }
+
+        // Registration choice functionality
+        function selectRegistrationType(type) {
+            closeModal('registrationChoice');
+            if (type === 'vendor') {
+                openModal('vendorSignup');
+            } else if (type === 'supplier') {
+                openModal('supplierSignup');
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Tab functionality
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('active');
+        });
+
+        // Authentication functions
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simulate login process
+            if (email && password) {
+                // Store user data (in real app, this would be from server response)
+                currentUser = {
+                    email: email,
+                    type: email.includes('supplier') ? 'supplier' : 'vendor' // Simple logic for demo
+                };
+                
+                setAuthenticatedState(true);
+                closeModal('loginModal');
+                
+                // Show success message
+                alert('Login successful! Welcome to VendorConnect.');
+            }
+        }
+
+        function handleVendorSignup(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const userData = Object.fromEntries(formData.entries());
+            
+            // Simulate signup process
+            if (userData.email && userData.password) {
+                currentUser = {
+                    ...userData,
+                    type: 'vendor'
+                };
+                
+                setAuthenticatedState(true);
+                closeModal('vendorSignup');
+                
+                // Show success message
+                alert('Vendor registration successful! Welcome to VendorConnect.');
+            }
+        }
+
+        function handleSupplierSignup(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const userData = Object.fromEntries(formData.entries());
+            
+            // Simulate signup process
+            if (userData.email && userData.password) {
+                currentUser = {
+                    ...userData,
+                    type: 'supplier'
+                };
+                
+                setAuthenticatedState(true);
+                closeModal('supplierSignup');
+                
+                // Show success message
+                alert('Supplier registration successful! Welcome to VendorConnect.');
+            }
+        }
+
+        function setAuthenticatedState(authenticated) {
+            isAuthenticated = authenticated;
+            
+            const defaultAuth = document.getElementById('nav-auth-default');
+            const authenticatedAuth = document.getElementById('nav-auth-authenticated');
+            
+            if (authenticated) {
+                defaultAuth.style.display = 'none';
+                authenticatedAuth.style.display = 'flex';
+            } else {
+                defaultAuth.style.display = 'flex';
+                authenticatedAuth.style.display = 'none';
+            }
+        }
+
+        function goToDashboard() {
+            if (currentUser) {
+                const dashboardType = currentUser.type === 'vendor' ? 'Vendor' : 'Supplier';
+                alert(`Redirecting to ${dashboardType} Dashboard...`);
+                // In a real app, this would redirect to the appropriate dashboard page
+                // window.location.href = `/dashboard/${currentUser.type}`;
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                isAuthenticated = false;
+                currentUser = null;
+                setAuthenticatedState(false);
+                alert('You have been logged out successfully.');
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial authentication state
+            setAuthenticatedState(false);
+            
+            // Add some entrance animations
+            const heroTitle = document.querySelector('.hero-title');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            
+            if (heroTitle && heroSubtitle) {
+                // Set initial styles for animations
+                heroTitle.style.cssText = 'opacity: 0; transform: translateY(30px); transition: all 0.8s ease;';
+                heroSubtitle.style.cssText = 'opacity: 0; transform: translateY(30px); transition: all 0.8s ease;';
+                
+                setTimeout(() => {
+                    heroTitle.style.opacity = '1';
+                    heroTitle.style.transform = 'translateY(0)';
+                }, 300);
+                
+                setTimeout(() => {
+                    heroSubtitle.style.opacity = '1';
+                    heroSubtitle.style.transform = 'translateY(0)';
+                }, 600);
+            }
+        });
+    </script>
+</body>
+</html>
